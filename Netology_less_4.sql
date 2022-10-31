@@ -1,5 +1,7 @@
-/* Создание таблиц */
-
+/* --------------------------------------------------------------------------------------------------*/
+/* Создание таблиц  УРОК 2 */
+/* --------------------------------------------------------------------------------------------------*/
+ 
 CREATE TABLE IF NOT EXISTS genre (
 	   genre_ID SERIAL PRIMARY KEY,
 	   name_genre VARCHAR(50) UNIQUE NOT NULL);
@@ -41,9 +43,10 @@ CREATE TABLE IF NOT EXISTS track_in_colection (
 
 	  
 	  	  
-	  
- /*  Задание № 1 */
-	  
+ /* --------------------------------------------------------------------------------------------------*/	  
+ /*  Задание № 1  УРОК 3 */
+ /* --------------------------------------------------------------------------------------------------*/
+ 
  INSERT INTO genre(name_genre)
  VALUES ('Pop Music'),
  		('Electronic'),
@@ -264,9 +267,10 @@ VALUES 	(1, 1),
 		(15, 12),
 		(40, 11);
 	
-	
-	 /*  Задание № 2 */
- 
+  /* --------------------------------------------------------------------------------------------------*/	
+	 /*  Задание № 2   УРОК 3 */
+  /* --------------------------------------------------------------------------------------------------*/
+  
 SELECT name_album, year_album
   FROM album
  WHERE  year_album = 2018;
@@ -298,20 +302,26 @@ SELECT name_track
  	   
  	  
  	  
- 	  
- 	  /* «Продвинутая выборка данных»   УРОК 3*/
- 
-/*  количество исполнителей в каждом жанре */	  
+ /* --------------------------------------------------------------------------------------------------*/	  
+ 	  /* «Продвинутая выборка данных»   УРОК 4*/
+ /* --------------------------------------------------------------------------------------------------*/
+  
+  
+  
+/*  количество исполнителей в каждом жанре */
+
  SELECT	name_genre, COUNT(singer_id)
    FROM genre JOIN singer_genre sg USING(genre_id)
   GROUP BY name_genre;
 
  /*количество треков, вошедших в альбомы 2019-2020 годов;*/
+ 
 SELECT COUNT(*) 
   FROM track t JOIN album a USING(album_id)
  WHERE a.year_album = 2019 OR a.year_album = 2020
  
  /*средняя продолжительность треков по каждому альбому;*/
+ 
  SELECT a.name_album , AVG(time_track)
    FROM track t JOIN album a USING(album_id)
   GROUP BY a.name_album ;
@@ -339,6 +349,7 @@ SELECT COUNT(*)
    
    
  /*название альбомов, в которых присутствуют исполнители более 1 жанра;*/
+ 
   SELECT a.name_album 
     FROM album_singer as2 
          JOIN album a ON as2.album_id = a.album_id 
@@ -349,6 +360,7 @@ SELECT COUNT(*)
 						     ORDER BY COUNT(sg.genre_id) DESC);
 						    
 /* наименование треков, которые не входят в сборники */
+
    SELECT name_track
      FROM track t 
     WHERE track_id NOT IN (SELECT track_id FROM track_in_colection tic)
@@ -364,6 +376,7 @@ SELECT COUNT(*)
   WHERE t.time_track = (SELECT MIN(time_track) FROM track); 
   /* если сделать MAX запрос выведет 2 исполнителя с одинаковой макс. длинной треков */
   
+  
  /* название альбомов, содержащих наименьшее количество треков. */ 
    
  /* Упс ... кгда заполнял базу данных делал во всех альомах по 3 трека.
@@ -371,10 +384,11 @@ SELECT COUNT(*)
   * Ну и на всякий случай выведу альбом с наибольшим количеством треков 
   * Надеюсь подойдет как решение*/ 
   
-  INSERT INTO track (name_track, time_track, album_id)
+ INSERT INTO track (name_track, time_track, album_id)
  VALUES ('Какая то песяня', '0:04:13', 17);
 
 /* альбомы с наименьшим количеством треков*/
+
 SELECT name_album
   FROM album a 
  WHERE a.album_id IN (SELECT album_id
@@ -386,6 +400,7 @@ SELECT name_album
 											     LIMIT 1));
 
 /* альбом с наибольшим количеством треков*/
+
 SELECT name_album
   FROM album a 
  WHERE a.album_id NOT IN (SELECT album_id
