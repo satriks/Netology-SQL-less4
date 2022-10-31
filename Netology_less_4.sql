@@ -331,10 +331,10 @@ SELECT COUNT(*)
  SELECT name_art
    FROM singer s 
   WHERE s.singer_id  NOT IN (SELECT singer_id 
-  								FROM album a2 
-  									 JOIN album_singer as3 
-  									 ON a2.album_id = as3.album_id 
-  								WHERE year_album = 2020);
+			       FROM album a2 
+				    JOIN album_singer as3 
+				    ON a2.album_id = as3.album_id 
+			      WHERE year_album = 2020);
   							
 /*названия сборников, в которых присутствует конкретный исполнитель (выберите сами)*/
   								
@@ -354,10 +354,10 @@ SELECT COUNT(*)
     FROM album_singer as2 
          JOIN album a ON as2.album_id = a.album_id 
    WHERE as2 .singer_id IN (SELECT sg.singer_id
-     						  FROM singer_genre sg 
-						     GROUP BY sg.singer_id 
-						    HAVING COUNT(sg.genre_id) > 1
-						     ORDER BY COUNT(sg.genre_id) DESC);
+			      FROM singer_genre sg 
+			     GROUP BY sg.singer_id 
+			    HAVING COUNT(sg.genre_id) > 1
+			     ORDER BY COUNT(sg.genre_id) DESC);
 						    
 /* наименование треков, которые не входят в сборники */
 
@@ -392,24 +392,24 @@ SELECT COUNT(*)
 SELECT name_album
   FROM album a 
  WHERE a.album_id IN (SELECT album_id
-					    FROM track
-					   GROUP BY album_id
-					  HAVING COUNT(track_id) = (SELECT COUNT(track_id)
-												  FROM track
-											     GROUP BY album_id
-											     LIMIT 1));
+		        FROM track
+		       GROUP BY album_id
+		      HAVING COUNT(track_id) = (SELECT COUNT(track_id)
+						  FROM track
+					         GROUP BY album_id
+					         LIMIT 1));
 
 /* альбом с наибольшим количеством треков*/
 
 SELECT name_album
   FROM album a 
  WHERE a.album_id NOT IN (SELECT album_id
-					    FROM track
-					   GROUP BY album_id
-					  HAVING COUNT(track_id) = (SELECT COUNT(track_id)
-												  FROM track
-											     GROUP BY album_id
-											     LIMIT 1));
+			    FROM track
+			   GROUP BY album_id
+			  HAVING COUNT(track_id) = (SELECT COUNT(track_id)
+						      FROM track
+						     GROUP BY album_id
+						     LIMIT 1));
 
 
 
